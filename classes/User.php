@@ -96,6 +96,31 @@ class User {
     }
 
     /**
+     * Load user data from database by email
+     */
+    public function loadByEmail($email) {
+        $query = "SELECT id, username, password, role, first_name, last_name, email, student_id, is_active, created_at 
+                  FROM users WHERE email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$email]);
+        
+        if ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->id = $user['id'];
+            $this->username = $user['username'];
+            $this->password = $user['password'];
+            $this->role = $user['role'];
+            $this->firstName = $user['first_name'];
+            $this->lastName = $user['last_name'];
+            $this->email = $user['email'];
+            $this->studentId = $user['student_id'];
+            $this->isActive = $user['is_active'];
+            $this->createdAt = $user['created_at'];
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Save user to database (insert or update)
      */
     public function save() {

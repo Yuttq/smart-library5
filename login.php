@@ -92,11 +92,11 @@ if ($_POST) {
                         <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
-                        Username
+                        Username or Email
                     </label>
                     <input id="username" name="username" type="text" required 
                            class="form-field appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                           placeholder="Enter your username">
+                           placeholder="Enter your username or email">
                 </div>
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
@@ -126,12 +126,14 @@ if ($_POST) {
             </div>
             
             <div class="text-center text-sm text-gray-600">
-                <p>Demo Accounts:</p>
-                <p><strong>Librarian:</strong> librarian1 / password</p>
-                <p><strong>Staff:</strong> staff1 / password</p>
-                <p><strong>Teacher:</strong> teacher1 / password</p>
-                <p><strong>Student:</strong> student1 / password</p>
-                <br>
+                <p class="font-medium text-gray-800 mb-2">Demo Accounts:</p>
+                <div class="bg-gray-50 rounded-lg p-3 mb-4">
+                    <p><strong>Librarian:</strong> librarian1 / password</p>
+                    <p><strong>Staff:</strong> staff1 / password</p>
+                    <p><strong>Teacher:</strong> teacher1 / password</p>
+                    <p><strong>Student:</strong> student1 / password</p>
+                </div>
+                <p class="text-xs text-gray-500 mb-2">You can login with either username or email</p>
                 <p>Don't have an account? <a href="register.php" class="text-indigo-600 hover:text-indigo-500 font-medium">Register here</a></p>
             </div>
         </form>
@@ -140,7 +142,7 @@ if ($_POST) {
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.2.1/dist/flowbite.min.js"></script>
     <script>
         function validateLoginForm() {
-            const username = document.getElementById('username').value.trim();
+            const usernameOrEmail = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
             
             // Clear previous errors
@@ -148,9 +150,9 @@ if ($_POST) {
             
             let isValid = true;
             
-            // Username validation
-            if (username === '') {
-                showLoginError('username', 'Username is required');
+            // Username/Email validation
+            if (usernameOrEmail === '') {
+                showLoginError('username', 'Username or email is required');
                 isValid = false;
             }
             

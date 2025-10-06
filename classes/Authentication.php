@@ -17,15 +17,22 @@ class Authentication {
     }
 
     /**
-     * Authenticate user login
+     * Authenticate user login (supports both username and email)
      */
-    public function login($username, $password) {
-        if (empty($username) || empty($password)) {
+    public function login($usernameOrEmail, $password) {
+        if (empty($usernameOrEmail) || empty($password)) {
             return ['success' => false, 'message' => 'Please fill in all fields'];
         }
 
-        // Load user by username
-        if ($this->user->loadByUsername($username)) {
+        // Try to load user by username first, then by email
+        $userLoaded = false;
+        if ($this->user->loadByUsername($usernameOrEmail)) {
+            $userLoaded = true;
+        } elseif ($this->user->loadByEmail($usernameOrEmail)) {
+            $userLoaded = true;
+        }
+
+        if ($userLoaded) {
             // Check if user is active
             if (!$this->user->getIsActive()) {
                 return ['success' => false, 'message' => 'Your account is inactive. Please contact administrator.'];
@@ -39,10 +46,10 @@ class Authentication {
                     'message' => 'Login successful'
                 ];
             } else {
-                return ['success' => false, 'message' => 'Invalid username or password'];
+                return ['success' => false, 'message' => 'Invalid username/email or password'];
             }
         } else {
-            return ['success' => false, 'message' => 'Invalid username or password'];
+            return ['success' => false, 'message' => 'Invalid username/email or password'];
         }
     }
 
